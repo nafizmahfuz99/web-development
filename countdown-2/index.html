@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cool Horizontal Countdown Timer</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #f06, #9f6);
+      color: #fff;
+    }
+
+    #countdown {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 60%;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      padding: 20px;
+    }
+
+    .digit {
+      font-size: 4rem;
+      background-color: #424a5d;
+      color: #fff;
+      padding: 15px 30px;
+      border-radius: 10px;
+      text-align: center;
+      transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+
+    .digit:hover {
+      background-color: #5e667e;
+      transform: scale(1.1);
+    }
+
+    .digit::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, #39ff14, #4ecca3);
+      border-radius: inherit;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .digit:hover::before {
+      opacity: 1;
+    }
+
+    .separator {
+      font-size: 4rem;
+      margin: 0 10px;
+    }
+
+    /* Neon Glow Effect */
+    .digit:hover::before {
+      opacity: 1;
+      box-shadow: 0 0 10px rgba(57, 255, 20, 0.8), 0 0 20px rgba(57, 255, 20, 0.6), 0 0 30px rgba(57, 255, 20, 0.4), 0 0 40px rgba(57, 255, 20, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+<div id="countdown">
+  <div class="digit" id="days">00</div>
+  <div class="separator">:</div>
+  <div class="digit" id="hours">00</div>
+  <div class="separator">:</div>
+  <div class="digit" id="minutes">00</div>
+  <div class="separator">:</div>
+  <div class="digit" id="seconds">00</div>
+</div>
+
+<script>
+  function updateCountdown() {
+    const targetDate = new Date("December 31, 2023 23:59:59").getTime();
+    const now = new Date().getTime();
+    const timeDifference = targetDate - now;
+
+    if (timeDifference <= 0) {
+      document.getElementById("countdown").innerHTML = "Countdown Expired!";
+      return;
+    }
+
+    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+    document.getElementById("days").innerText = formatTime(days);
+    document.getElementById("hours").innerText = formatTime(hours);
+    document.getElementById("minutes").innerText = formatTime(minutes);
+    document.getElementById("seconds").innerText = formatTime(seconds);
+  }
+
+  function formatTime(time) {
+    return time < 10 ? "0" + time : time;
+  }
+
+  // Start countdown on page load
+  setInterval(updateCountdown, 1000);
+</script>
+
+</body>
+</html>
